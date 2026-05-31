@@ -39,16 +39,16 @@ If you'd like to run the full full-stack application (with the Python backend) o
 
 ### Installation & Execution
 
+The application is built to run entirely on the frontend (Serverless mode) by default. To test it locally:
+
 1. Clone the repository to your local machine.
-2. Run the provided startup script:
+2. Start a simple local HTTP server in the project directory (for example, using Python):
    ```cmd
-   .\start.bat
+   python -m http.server 8000
    ```
-3. The script will automatically:
-    *   Install the required Python backend dependencies (`flask`, `flask-cors`, `gunicorn`).
-    *   Start the Flask API on `http://localhost:5000`.
-    *   Start a local HTTP server for the frontend on `http://localhost:8000`.
-4. Open your browser to `http://localhost:8000` to interact with the application.
+3. Open your browser to `http://localhost:8000` to interact with the application.
+
+*Note: The `backend/` directory contains an optional Python Flask API if you choose to deploy a centralized server, but it is not required for the frontend to function.*
 
 ---
 
