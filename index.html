@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CivicShield — Anti-Hoax Civic Alert Gateway</title>
+    <meta name="description" content="Real-time, tamper-proof verification engine for local civic alerts. Verify rumors instantly against officially signed government alerts.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <span class="logo-text">CivicShield</span>
+                <span class="logo-badge">OFFICIAL</span>
+            </a>
+            <div class="nav-links">
+                <a href="#verify" class="nav-link">Verify Alert</a>
+                <a href="#live-alerts" class="nav-link">Live Alerts</a>
+                <a href="#dashboard" class="nav-link">Dashboard</a>
+                <a href="#sources" class="nav-link">Sources</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
+            </div>
+            <div class="nav-actions">
+                <div class="status-indicator" id="systemStatus">
+                    <span class="status-dot pulse"></span>
+                    <span class="status-text">System Active</span>
+                </div>
+                <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#verify" class="mobile-link">Verify Alert</a>
+        <a href="#live-alerts" class="mobile-link">Live Alerts</a>
+        <a href="#dashboard" class="mobile-link">Dashboard</a>
+        <a href="#sources" class="mobile-link">Sources</a>
+        <a href="#how-it-works" class="mobile-link">How It Works</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Cryptographically Verified · Tamper-Proof · Real-Time
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-title-line">Stop the Hoax.</span>
+                <span class="hero-title-line gradient-text">Verify the Truth.</span>
+            </h1>
+            <p class="hero-subtitle">
+                India's first civic alert verification engine. Instantly check any forwarded emergency message 
+                against officially signed government alerts — cryptographically sealed, timestamped, and tamper-proof.
+            </p>
+            <div class="hero-actions">
+                <a href="#verify" class="btn btn-primary btn-lg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                    Verify a Message
+                </a>
+                <a href="#how-it-works" class="btn btn-outline btn-lg">
+                    Learn How It Works
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-number" id="statAlertsVerified">2,847</span>
+                    <span class="hero-stat-label">Alerts Verified</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number" id="statHoaxesCaught">1,203</span>
+                    <span class="hero-stat-label">Hoaxes Identified</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number" id="statSourcesMonitored">6</span>
+                    <span class="hero-stat-label">Official Sources</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="verification-preview">
+                <div class="preview-header">
+                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                    <span class="preview-title">CivicShield Verification Engine</span>
+                </div>
+                <div class="preview-body">
+                    <div class="preview-input-area">
+                        <div class="preview-label">Suspicious Message</div>
+                        <div class="preview-text typing-effect">"Heavy flooding reported, Hoshangabad Road completely closed to traffic!"</div>
+                    </div>
+                    <div class="preview-result verified">
+                        <div class="preview-result-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <div class="preview-result-content">
+                            <div class="preview-result-status">VERIFIED — Official Alert Found</div>
+                            <div class="preview-result-detail">Matched: Municipal Corp. Advisory #BPL-2026-0847</div>
+                            <div class="preview-hash">SHA-256: 7f3a9c...e82d1b</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification Section -->
+    <section class="section verify-section" id="verify">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Core Feature</div>
+                <h2 class="section-title">Verify Any Message</h2>
+                <p class="section-subtitle">Paste any suspicious civic alert, forwarded message, or rumor below. Our engine will cross-reference it against all officially signed government alerts in real-time.</p>
+            </div>
+            <div class="verify-card">
+                <div class="verify-form">
+                    <div class="form-group">
+                        <label for="verifyInput" class="form-label">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Paste Suspicious Message
+                        </label>
+                        <textarea id="verifyInput" class="form-textarea" placeholder='e.g., "Heavy rainfall warning — all schools closed tomorrow in Bhopal. Stay indoors!"' rows="5"></textarea>
+                        <div class="form-hint">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                            Tip: The more text you provide, the more accurate the verification result.
+                        </div>
+                    </div>
+                    <div class="verify-options">
+                        <div class="filter-group">
+                            <label class="filter-label">Filter by category</label>
+                            <select id="filterCategory" class="form-select">
+                                <option value="">All Categories</option>
+                                <option value="weather">Weather & Floods</option>
+                                <option value="traffic">Traffic & Roads</option>
+                                <option value="health">Public Health</option>
+                                <option value="infrastructure">Infrastructure</option>
+                                <option value="safety">Public Safety</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Time range</label>
+                            <select id="filterTime" class="form-select">
+                                <option value="24">Last 24 Hours</option>
+                                <option value="48">Last 48 Hours</option>
+                                <option value="72">Last 72 Hours</option>
+                                <option value="168">Last 7 Days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="verifyBtn" class="btn btn-primary btn-block" onclick="verifyMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        Verify This Message
+                    </button>
+                </div>
+                <!-- Verification Result -->
+                <div id="verifyResult" class="verify-result hidden">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            <!-- Quick Examples -->
+            <div class="quick-examples">
+                <span class="quick-label">Try an example:</span>
+                <button class="example-chip" onclick="setExample('Heavy flooding on Hoshangabad Road, all vehicles stuck')">🌊 Flooding Alert</button>
+                <button class="example-chip" onclick="setExample('BRTS route diverted due to construction near MP Nagar')">🚌 Traffic Diversion</button>
+                <button class="example-chip" onclick="setExample('Dengue outbreak warning in Arera Colony area')">🏥 Health Warning</button>
+                <button class="example-chip" onclick="setExample('Major power cut in New Market zone for next 6 hours')">⚡ Power Outage</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Alerts Section -->
+    <section class="section alerts-section" id="live-alerts">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge alert-badge">
+                    <span class="live-dot"></span> Live Feed
+                </div>
+                <h2 class="section-title">Official Civic Alerts</h2>
+                <p class="section-subtitle">Real-time feed of cryptographically signed alerts from verified government sources. Each alert is hashed and timestamped the moment it's received.</p>
+            </div>
+            <!-- Alert Filters -->
+            <div class="alert-filters">
+                <button class="filter-chip active" data-filter="all" onclick="filterAlerts('all', this)">All Alerts</button>
+                <button class="filter-chip" data-filter="critical" onclick="filterAlerts('critical', this)">
+                    <span class="severity-dot critical"></span> Critical
+                </button>
+                <button class="filter-chip" data-filter="warning" onclick="filterAlerts('warning', this)">
+                    <span class="severity-dot warning"></span> Warning
+                </button>
+                <button class="filter-chip" data-filter="info" onclick="filterAlerts('info', this)">
+                    <span class="severity-dot info"></span> Info
+                </button>
+            </div>
+            <!-- Alert Grid -->
+            <div class="alerts-grid" id="alertsGrid">
+                <!-- Populated dynamically -->
+                <div class="alerts-loading">
+                    <div class="loading-spinner"></div>
+                    <span>Loading verified alerts...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="section dashboard-section" id="dashboard">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Analytics</div>
+                <h2 class="section-title">System Dashboard</h2>
+                <p class="section-subtitle">Real-time operational metrics and alert distribution across the verification network.</p>
+            </div>
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <div class="dash-card-icon" style="--accent: #3b82f6;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <div class="dash-card-content">
+                        <span class="dash-card-value" id="dashTotalAlerts">—</span>
+                        <span class="dash-card-label">Total Alerts Issued</span>
+                    </div>
+                    <div class="dash-card-trend up">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+                        +12% this week
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-icon" style="--accent: #10b981;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="dash-card-content">
+                        <span class="dash-card-value" id="dashVerifiedQueries">—</span>
+                        <span class="dash-card-label">Queries Verified</span>
+                    </div>
+                    <div class="dash-card-trend up">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+                        +28% this week
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-icon" style="--accent: #f59e0b;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <div class="dash-card-content">
+                        <span class="dash-card-value" id="dashHoaxesDetected">—</span>
+                        <span class="dash-card-label">Hoaxes Flagged</span>
+                    </div>
+                    <div class="dash-card-trend up">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+                        +5% this week
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-icon" style="--accent: #8b5cf6;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div class="dash-card-content">
+                        <span class="dash-card-value" id="dashActiveAlerts">—</span>
+                        <span class="dash-card-label">Active Alerts Now</span>
+                    </div>
+                    <div class="dash-card-trend neutral">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Stable
+                    </div>
+                </div>
+            </div>
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h3 class="chart-title">Alerts by Category</h3>
+                    <div class="chart-container" id="categoryChart">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Severity Distribution</h3>
+                    <div class="chart-container" id="severityChart">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Verification Activity (7 days)</h3>
+                    <div class="chart-container" id="activityChart">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sources Section -->
+    <section class="section sources-section" id="sources">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Trusted Sources</div>
+                <h2 class="section-title">Verified Official Sources</h2>
+                <p class="section-subtitle">We aggregate alerts exclusively from verified government and institutional sources. No user-generated or unofficial content is ever processed.</p>
+            </div>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <div class="source-icon" style="--accent: #2563eb;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+                    </div>
+                    <h3 class="source-name">Bhopal Municipal Corporation</h3>
+                    <p class="source-desc">Official press releases, civic advisories, and emergency notifications from the BMC portal.</p>
+                    <div class="source-meta">
+                        <span class="source-tag">Press Portal</span>
+                        <span class="source-status active">
+                            <span class="status-dot"></span> Connected
+                        </span>
+                    </div>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon" style="--accent: #dc2626;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="source-name">Bhopal City Police</h3>
+                    <p class="source-desc">Traffic advisories, public safety alerts, and law enforcement notifications from official police channels.</p>
+                    <div class="source-meta">
+                        <span class="source-tag">Social Media</span>
+                        <span class="source-status active">
+                            <span class="status-dot"></span> Connected
+                        </span>
+                    </div>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon" style="--accent: #0891b2;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6M12 18v4M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M18 12h4M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
+                    </div>
+                    <h3 class="source-name">IMD — Meteorological Dept.</h3>
+                    <p class="source-desc">Weather warnings, rainfall predictions, and severe weather advisories for the Bhopal region.</p>
+                    <div class="source-meta">
+                        <span class="source-tag">Weather API</span>
+                        <span class="source-status active">
+                            <span class="status-dot"></span> Connected
+                        </span>
+                    </div>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon" style="--accent: #16a34a;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h3 class="source-name">District Health Authority</h3>
+                    <p class="source-desc">Public health advisories, disease outbreak warnings, and vaccination drive announcements.</p>
+                    <div class="source-meta">
+                        <span class="source-tag">Health Portal</span>
+                        <span class="source-status active">
+                            <span class="status-dot"></span> Connected
+                        </span>
+                    </div>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon" style="--accent: #ea580c;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <h3 class="source-name">MP Power Distribution</h3>
+                    <p class="source-desc">Scheduled maintenance, emergency power outage notifications, and restoration timelines.</p>
+                    <div class="source-meta">
+                        <span class="source-tag">Utility Portal</span>
+                        <span class="source-status active">
+                            <span class="status-dot"></span> Connected
+                        </span>
+                    </div>
+                </div>
+                <div class="source-card">
+                    <div class="source-icon" style="--accent: #7c3aed;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <h3 class="source-name">BRTS Bhopal</h3>
+                    <p class="source-desc">Route diversions, service disruptions, and public transport advisories for the BRTS corridor.</p>
+                    <div class="source-meta">
+                        <span class="source-tag">Transport API</span>
+                        <span class="source-status active">
+                            <span class="status-dot"></span> Connected
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section how-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Architecture</div>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">A transparent look at the four-step pipeline that ensures every alert is authentic, tamper-proof, and instantly verifiable.</p>
+            </div>
+            <div class="steps-timeline">
+                <div class="step-card" data-step="01">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+                        </div>
+                        <h3 class="step-title">Automated Aggregation</h3>
+                        <p class="step-desc">Continuous scraping scripts monitor verified government portals, official social media feeds, and meteorological services every 60 seconds for new alerts.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card" data-step="02">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <h3 class="step-title">Cryptographic Signing</h3>
+                        <p class="step-desc">Each alert is immediately hashed using SHA-256 and timestamped. This creates an immutable proof of content and issuance time that cannot be forged.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card" data-step="03">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                        </div>
+                        <h3 class="step-title">Semantic Matching</h3>
+                        <p class="step-desc">When a user submits a suspicious message, the engine extracts key entities and performs fuzzy keyword matching against the signed alert database.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card" data-step="04">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <div class="step-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <h3 class="step-title">Instant Verdict</h3>
+                        <p class="step-desc">The system returns a clear verdict: Verified (matched official alert), Partially Matched, or Unverified — along with cryptographic proof and source attribution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-content">
+                    <h2 class="cta-title">Received a suspicious alert?</h2>
+                    <p class="cta-subtitle">Don't forward. Don't panic. Verify it first with CivicShield.</p>
+                    <a href="#verify" class="btn btn-primary btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        Verify Now
+                    </a>
+                </div>
+                <div class="cta-decoration">
+                    <div class="cta-circle"></div>
+                    <div class="cta-circle"></div>
+                    <div class="cta-circle"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="nav-logo">
+                        <div class="logo-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        </div>
+                        <span class="logo-text">CivicShield</span>
+                    </div>
+                    <p class="footer-desc">Open-source civic alert verification platform. Fighting misinformation at the city level through cryptographic proof and verified sources.</p>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Platform</h4>
+                    <a href="#verify" class="footer-link">Verify Message</a>
+                    <a href="#live-alerts" class="footer-link">Live Alerts</a>
+                    <a href="#dashboard" class="footer-link">Dashboard</a>
+                    <a href="#sources" class="footer-link">Sources</a>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Resources</h4>
+                    <a href="#" class="footer-link">API Documentation</a>
+                    <a href="#" class="footer-link">Discord Bot</a>
+                    <a href="#" class="footer-link">GitHub Repository</a>
+                    <a href="#" class="footer-link">Report an Issue</a>
+                </div>
+                <div class="footer-links-group">
+                    <h4 class="footer-heading">Legal</h4>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Data Handling</a>
+                    <a href="#" class="footer-link">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CivicShield — Anti-Hoax Civic Alert Gateway. Built for public safety.</p>
+                <div class="footer-tech">
+                    <span>Secured with SHA-256</span>
+                    <span class="footer-dot">·</span>
+                    <span>Powered by Python & Flask</span>
+                    <span class="footer-dot">·</span>
+                    <span>Open Source</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alert Detail Modal -->
+    <div class="modal-overlay" id="alertModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
